@@ -46,16 +46,10 @@ jobs:
           environment-file: implementations/${{ inputs.implementation }}/environment.yml
           mamba-version: "*"
           python-version: ${{ inputs.python-version }}
+          activate-environment: ZI_${{ inputs.implementation }}
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           
-      - name: Rename conda environment
-        shell: bash
-        run: |
-          conda init bash
-          conda activate base
-          conda rename --name test ZI_${{ inputs.implementation }}
-
       - name: Install zarr dev (optional)
         shell: bash -l {0}
         if: ${{ inputs.config.zarr-python == 'pre' }}
