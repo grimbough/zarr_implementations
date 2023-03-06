@@ -48,6 +48,11 @@ jobs:
           python-version: ${{ inputs.python-version }}
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          
+      - name: Rename conda environment
+        shell: bash
+        run: |
+          conda rename --name test ZI_${{ inputs.implementation }}
 
       - name: Install zarr dev (optional)
         shell: bash -l {0}
