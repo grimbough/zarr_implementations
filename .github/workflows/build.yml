@@ -48,3 +48,9 @@ jobs:
       platform: ${{ matrix.platform }}
       python-version: ${{ matrix.python-version }}
       zarr-python: ${{ matrix.zarr-python }}
+
+  test_all:
+    strategy:
+      fail-fast: false
+    needs: [test_implementations_released]
+    uses: ./.github/workflows/test-all.yml

@@ -67,3 +67,14 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: make implementations/${{ inputs.implementation }}
+        
+      - name: Upload generated files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.implementation }}
+          if-no-files-found: ignore
+          retention-days: 1
+          path: |
+            data/*.zr
+            data/*.zr3
+            data/*.n5

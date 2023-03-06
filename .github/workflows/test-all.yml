@@ -1,0 +1,57 @@
+---
+name: Implementation tests
+
+on:
+  workflow_call:
+  
+env:
+  CACHE_NUMBER: 0
+
+jobs:
+
+  test_implementations:
+    name: read-tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download previous artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: /tmp/artifacts
+        
+      - name: Move build cache
+        run: |
+          cp -r /tmp/artifacts/*.zr data/
+          cp -r /tmp/artifacts/*.zr3 data/
+          cp -r /tmp/artifacts/*.n5 data/
+        shell: bash
+        
+      - name: Cache Rarr
+        uses: actions/cache@v3
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/Rarr/environment.yml' ) }}
+            
+      - name: ls 1
+        run: ls -l ~/conda_pkgs_dir
+        shell: bash
+
+      - name: Cache js
+        uses: actions/cache@v3
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/js/environment.yml' ) }}
+
+      - name: ls 2
+        run: |
+          ls -l ~/conda_pkgs_dir
+          ls -l ~/data
+        shell: bash
