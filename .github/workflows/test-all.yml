@@ -20,38 +20,42 @@ jobs:
       - name: Download previous artifacts
         uses: actions/download-artifact@v3
         with:
-          path: /tmp/artifacts
+          path: data
         
-      - name: Move build cache
-        run: |
-          cp -r /tmp/artifacts/*.zr data/
-          cp -r /tmp/artifacts/*.zr3 data/
-          cp -r /tmp/artifacts/*.n5 data/
-        shell: bash
-        
-      - name: Cache Rarr
-        uses: actions/cache@v3
+      # - name: Move build cache
+      #   run: |
+      #     cp -r /tmp/artifacts/*.zr data/
+      #     cp -r /tmp/artifacts/*.zr3 data/
+      #     cp -r /tmp/artifacts/*.n5 data/
+      #   shell: bash
+      
+      - name: Setup miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          channels: conda-forge,defaults
+          channel-priority: true
+          mamba-version: "*"
+          python-version: ${{ inputs.python-version }}
+          activate-environment: ZI_${{ inputs.implementation }}
         env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
-        with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/Rarr/environment.yml' ) }}
-            
-      - name: ls 1
-        run: ls -l ~/conda_pkgs_dir
-        shell: bash
-
-      - name: Cache js
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          
+      - name: Cache conda env - Rarr
         uses: actions/cache@v3
         with:
-          path: ~/conda_pkgs_dir
+          path: ${{ env.CONDA }}/envs/ZI_Rarr
           key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/js/environment.yml' ) }}
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/Rarr/environment.yml') }}
+  
+        
+      - name: Cache conda env - js
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CONDA }}/envs/ZI_Rarr
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/js/environment.yml') }}
 
       - name: ls 2
         run: |
-          ls -l ~/conda_pkgs_dir
-          ls -l ~/data
-        shell: bash
+          pytest test/test_read_all.py -v
