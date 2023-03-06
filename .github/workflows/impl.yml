@@ -52,6 +52,7 @@ jobs:
       - name: Rename conda environment
         shell: bash
         run: |
+          conda init bash
           conda activate base
           conda rename --name test ZI_${{ inputs.implementation }}
 
