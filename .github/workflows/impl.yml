@@ -52,7 +52,7 @@ jobs:
       - name: Rename conda environment
         shell: bash
         run: |
-          conda rename --name test ZI_${{ inputs.implementation }}
+          mamba rename --name test ZI_${{ inputs.implementation }}
 
       - name: Install zarr dev (optional)
         shell: bash -l {0}
