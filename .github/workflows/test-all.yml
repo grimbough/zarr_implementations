@@ -37,25 +37,13 @@ jobs:
           channel-priority: true
           mamba-version: "*"
           python-version: ${{ inputs.python-version }}
-          activate-environment: ZI_${{ inputs.implementation }}
+          environment-file: environment.yml
+          activate-environment: zarr_impl_dev
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           
-      - name: Cache conda env - Rarr
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.CONDA }}/envs/ZI_Rarr
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/Rarr/environment.yml') }}
-  
-        
-      - name: Cache conda env - js
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.CONDA }}/envs/ZI_Rarr
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles( 'implementations/js/environment.yml') }}
-
-      - name: ls 2
+      - name: Run tests
         run: |
           pytest test/test_read_all.py -v
+        shell: bash -l {0}
+        
