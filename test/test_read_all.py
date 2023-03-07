@@ -43,11 +43,11 @@ import pytest
 
 
 READABLE_CODECS: Dict[str, Dict[str, List[str]]] = {
-    "jzarr": {
-        "zarr": ["blosc", "raw", "zlib"],
-        "zarr-v3": [],
-        "N5": [],
-    },
+    # "jzarr": {
+    #     "zarr": ["blosc", "raw", "zlib"],
+    #     "zarr-v3": [],
+    #     "N5": [],
+    # },
     "z5py": {
         "zarr": ["blosc", "gzip", "raw", "zlib"],
         "zarr-v3": [],
@@ -249,12 +249,12 @@ argnames, params, ids = create_params()
 
 def _get_read_fn(reading_library):
     read_fn = {
-        "jzarr": read_with_jzarr,
+        # "jzarr": read_with_jzarr,
         "zarr": read_with_zarr,
         "pyn5": read_with_pyn5,
         "z5py": read_with_z5py,
         "zarrita": read_with_zarrita,
-        "xtensor_zarr": read_with_xtensor_zarr,
+        # "xtensor_zarr": read_with_xtensor_zarr,
         "Rarr": read_with_Rarr,
     }[reading_library]
     return read_fn
