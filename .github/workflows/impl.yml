@@ -70,6 +70,7 @@ jobs:
         
       - name: Upload generated files
         uses: actions/upload-artifact@v3
+        if: ${{ inputs.config.zarr-python != 'pre' }}
         with:
           name: ${{ inputs.implementation }}
           if-no-files-found: ignore
