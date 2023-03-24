@@ -16,8 +16,8 @@ write(){
     cd build
     export LDFLAGS="${LDFLAGS} -Wl,-rpath,$CONDA_PREFIX/lib -Wl,-rpath,$PWD"
     export LINKFLAGS="${LDFLAGS}"
-    cmake .. -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_INSTALL_LIBDIR=lib
-    make run
+    cmake .. -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=Debug
+    make VERBOSE=1 run
 }
 
 . $ROOT/.conda_driver.sh
