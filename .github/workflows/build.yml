@@ -59,10 +59,10 @@ jobs:
         implementation: ${{ fromJson(needs.get_implementations.outputs.matrix) }}
         platform: [ubuntu-latest]
         python-version: [3.8]
-        zarr-python: [pre]
+        zarr-python: [released]
     # Run the read job regardless once writing is complete
     # TMP needs: [write_pre, write_released]
-    needs: [write_released]
+    needs: [get_implementations, write_released]
     if: ${{ always() }}
     uses: ./.github/workflows/impl.yml
     with:
