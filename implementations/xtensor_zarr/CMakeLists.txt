@@ -12,11 +12,10 @@ include(CheckCXXCompilerFlag)
 string(TOUPPER "${CMAKE_BUILD_TYPE}" U_CMAKE_BUILD_TYPE)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Intel")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Wunused-parameter -Wextra -Wreorder -Wconversion -Wsign-conversion")
     CHECK_CXX_COMPILER_FLAG("-std=c++14" HAS_CPP14_FLAG)
 
     if (HAS_CPP14_FLAG)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+        set(CMAKE_CXX_FLAGS "-std=c++14")
     else()
         message(FATAL_ERROR "Unsupported compiler -- xtensor requires C++14 support!")
     endif()
@@ -79,6 +78,7 @@ if(DEFINED CMAKE_INSTALL_PREFIX)
     )
 endif()
 
+target_include_directories(run_xtensor_zarr PUBLIC ${XTENSOR_ZARR_INCLUDE_DIR})
 target_link_libraries(run_xtensor_zarr
     PUBLIC
     xtensor-zarr
@@ -86,8 +86,7 @@ target_link_libraries(run_xtensor_zarr
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
 )
-
-target_include_directories(run_xtensor_zarr PRIVATE ${XTENSOR_ZARR_INCLUDE_DIR})
+#target_compile_options(run_xtensor_zarr PRIVATE -mtune=generic)
 
 add_custom_target(run
     COMMAND run_xtensor_zarr

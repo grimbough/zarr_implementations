@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.8
   - cmake
-  - xtensor-zarr>=0.0.7
+  - xtensor-io
+  - zarray=0.6
   - gdal>=3.0.4
   - tbb=2020.2
