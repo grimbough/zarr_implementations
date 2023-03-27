@@ -3,8 +3,8 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-  - cmake
-  - xtensor-io
+  - cmake>=3.19
+  - xtensor-io=0.12.9
   - zarray=0.0.6
-  - gdal>=3.0.4
+  - gdal=3.0.4
   - tbb=2020.2
